@@ -36,43 +36,139 @@ export default function TrustLensDashboard() {
   };
 
   const handleAnalyze = async () => {
-    if (activeTab !== 'image' && !inputText.trim()) { alert('Please enter some content to analyze.'); return; }
-    if (activeTab === 'image' && !imageFile) { alert('Please select an image to analyze.'); return; }
-    setLoading(true); setShowResults(false); setShowPauseModal(false); setQ1Answer(null); setQ2Answer(null);
-    try {
-      let response;
-      if (activeTab === 'text') {
-        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/text', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: inputText }) });
-      } else if (activeTab === 'url') {
-        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/url', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: inputText }) });
-      } else if (activeTab === 'voice') {
-        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/voice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ transcript: inputText }) });
-      } else if (activeTab === 'image') {
-        const formData = new FormData(); formData.append('file', imageFile);
-        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/image', { method: 'POST', body: formData });
-      }
-      if (!response.ok) throw new Error(`Backend error: ${response.status}`);
-      const data = await response.json();
-      setResult(data); setShowResults(true);
-      if (data.risk_level === 'high') setShowPauseModal(true);
-    } catch (error) {
-      console.error(error);
-      alert('Could not connect to backend. Make sure it is running on port 8000.');
-    } finally { setLoading(false); }
-  };
+  if (activeTab !== 'image' && !inputText.trim()) {
+    alert('Please enter some content to analyze.');
+    return;
+  }
 
-  const sendChatMessage = async () => {
-    if (!chatInput.trim()) return;
-    const userMsg = chatInput; setChatInput('');
-    setChatMessages(prev => [...prev, { role: 'user', text: userMsg }]);
-    setChatLoading(true);
-    try {
-      const res = await fetch('https://trustlens-xzqs.onrender.com/api/v1/chat/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user_message: userMsg }) });
-      const data = await res.json();
-      setChatMessages(prev => [...prev, { role: 'bot', text: data.ai_explanation, risk: data.risk_tier, action: data.safest_next_action }]);
-    } catch {
-      setChatMessages(prev => [...prev, { role: 'bot', text: 'Could not connect to backend.' }]);
-    } finally { setChatLoading(false); }
+  if (activeTab === 'image' && !imageFile) {
+    alert('Please select an image to analyze.');
+    return;
+  }
+
+  setLoading(true);
+  setShowResults(false);
+  setShowPauseModal(false);
+  setQ1Answer(null);
+  setQ2Answer(null);
+
+  try {
+    let response;
+
+    if (activeTab === 'text') {
+      response = await fetch(`${API_BASE_URL}/analyze/text`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: inputText })
+      });
+
+    } else if (activeTab === 'url') {
+      response = await fetch(`${API_BASE_URL}/analyze/url`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: inputText })
+      });
+
+    } else if (activeTab === 'voice') {
+      response = await fetch(`${API_BASE_URL}/analyze/voice`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ transcript: inputText })
+      });
+
+    } else if (activeTab === 'image') {
+      const formData = new FormData();
+      formData.append('file', imageFile);
+
+      response = await fetch(`${API_BASE_URL}/analyze/image`, {
+        method: 'POST',
+        body: formData
+      });
+    }
+
+    if (!response.ok) {
+      throw new Error(`Backend error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    setResult(data);
+    setShowResults(true);
+
+    if (data.risk_level === 'high') {
+      setShowPauseModal(true);
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert('Could not connect to backend. Make sure it is running on port 8000.');
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+const sendChatMessage = async () => {
+  if (!chatInput.trim()) return;
+
+  const userMsg = chatInput;
+  setChatInput('');
+
+  setChatMessages(prev => [
+    ...prev,
+    { role: 'user', text: userMsg }
+  ]);
+
+  setChatLoading(true);
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/v1/chat/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_message: userMsg
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Backend error: ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    setChatMessages(prev => [
+      ...prev,
+      {
+        role: 'bot',
+        text: data.ai_explanation,
+        risk: data.risk_tier,
+        action: data.safest_next_action
+      }
+    ]);
+
+  } catch (error) {
+    console.error(error);
+
+    setChatMessages(prev => [
+      ...prev,
+      {
+        role: 'bot',
+        text: 'Could not connect to backend.'
+      }
+    ]);
+
+  } finally {
+    setChatLoading(false);
+  }
+};
   };
 
   return (
