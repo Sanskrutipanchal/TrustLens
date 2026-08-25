@@ -235,7 +235,7 @@ export default function TrustLensDashboard() {
                 </div>
               )}
             </div>
-            <button onClick={() => setShowPauseModal(false)} className="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-sm rounded-xl transition-all cursor-pointer">I Understand — View Full Analysis</button>
+            <button onClick={() => setShowPauseModal(false)} className="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-sm rounded-xl transition-all cursor-pointer">I Understand - View Full Analysis</button>
           </div>
         </div>
       )}
@@ -310,7 +310,7 @@ export default function TrustLensDashboard() {
                   {msg.text}
                   {msg.risk && (
                     <div className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${msg.risk === 'CRITICAL RISK' ? 'text-red-400' : msg.risk === 'SUSPICIOUS ANOMALY' ? 'text-amber-400' : 'text-emerald-400'}`}>
-                      ? {msg.risk} — {msg.action}
+                      ? {msg.risk} â€” {msg.action}
                     </div>
                   )}
                 </div>
