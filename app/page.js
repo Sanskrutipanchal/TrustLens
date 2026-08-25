@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import {
   ShieldAlert, MessageSquare, Image as ImageIcon, Link as LinkIcon,
@@ -42,14 +42,14 @@ export default function TrustLensDashboard() {
     try {
       let response;
       if (activeTab === 'text') {
-        response = await fetch('http://127.0.0.1:8000/analyze/text', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: inputText }) });
+        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/text', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: inputText }) });
       } else if (activeTab === 'url') {
-        response = await fetch('http://127.0.0.1:8000/analyze/url', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: inputText }) });
+        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/url', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: inputText }) });
       } else if (activeTab === 'voice') {
-        response = await fetch('http://127.0.0.1:8000/analyze/voice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ transcript: inputText }) });
+        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/voice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ transcript: inputText }) });
       } else if (activeTab === 'image') {
         const formData = new FormData(); formData.append('file', imageFile);
-        response = await fetch('http://127.0.0.1:8000/analyze/image', { method: 'POST', body: formData });
+        response = await fetch('https://trustlens-xzqs.onrender.com/analyze/image', { method: 'POST', body: formData });
       }
       if (!response.ok) throw new Error(`Backend error: ${response.status}`);
       const data = await response.json();
@@ -67,7 +67,7 @@ export default function TrustLensDashboard() {
     setChatMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setChatLoading(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/v1/chat/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user_message: userMsg }) });
+      const res = await fetch('https://trustlens-xzqs.onrender.com/api/v1/chat/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user_message: userMsg }) });
       const data = await res.json();
       setChatMessages(prev => [...prev, { role: 'bot', text: data.ai_explanation, risk: data.risk_tier, action: data.safest_next_action }]);
     } catch {
@@ -140,7 +140,7 @@ export default function TrustLensDashboard() {
               <p className="text-slate-400 text-sm mb-4">Upload a screenshot to analyze for scam content</p>
               <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} className="hidden" id="imageUpload" />
               <label htmlFor="imageUpload" className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm rounded-xl cursor-pointer transition-all border border-slate-700">Choose Image</label>
-              {imageFile && <p className="text-emerald-400 text-xs mt-3">✓ {imageFile.name} selected</p>}
+              {imageFile && <p className="text-emerald-400 text-xs mt-3">? {imageFile.name} selected</p>}
             </div>
           ) : (
             <div className="relative">
@@ -235,14 +235,14 @@ export default function TrustLensDashboard() {
                 </div>
               )}
             </div>
-            <button onClick={() => setShowPauseModal(false)} className="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-sm rounded-xl transition-all cursor-pointer">I Understand — View Full Analysis</button>
+            <button onClick={() => setShowPauseModal(false)} className="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-sm rounded-xl transition-all cursor-pointer">I Understand � View Full Analysis</button>
           </div>
         </div>
       )}
 
       {/* Feedback Button */}
       <button onClick={() => setFeedbackOpen(!feedbackOpen)} className="fixed bottom-6 left-6 z-50 px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-full text-xs font-semibold text-slate-300 flex items-center gap-2 shadow-xl transition-all cursor-pointer">
-        ⭐ Give Feedback
+        ? Give Feedback
       </button>
 
       {/* Feedback Form */}
@@ -256,7 +256,7 @@ export default function TrustLensDashboard() {
             <p className="text-xs text-slate-400 mb-2">How would you rate TrustLens?</p>
             <div className="flex gap-2">
               {[1,2,3,4,5].map((star) => (
-                <button key={star} onClick={() => setRating(star)} className={`text-2xl transition-all cursor-pointer ${rating >= star ? 'text-amber-400' : 'text-slate-600'}`}>★</button>
+                <button key={star} onClick={() => setRating(star)} className={`text-2xl transition-all cursor-pointer ${rating >= star ? 'text-amber-400' : 'text-slate-600'}`}>?</button>
               ))}
             </div>
           </div>
@@ -273,7 +273,7 @@ export default function TrustLensDashboard() {
             <textarea rows={3} value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} placeholder="Tell us what you think..." className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-red-500 resize-none" />
           </div>
           {feedbackSubmitted ? (
-            <div className="text-center py-2 text-emerald-400 text-sm font-bold">✅ Thank you for your feedback!</div>
+            <div className="text-center py-2 text-emerald-400 text-sm font-bold">? Thank you for your feedback!</div>
           ) : (
             <button onClick={() => {
               if (rating === 0) { alert('Please select a rating!'); return; }
@@ -310,7 +310,7 @@ export default function TrustLensDashboard() {
                   {msg.text}
                   {msg.risk && (
                     <div className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${msg.risk === 'CRITICAL RISK' ? 'text-red-400' : msg.risk === 'SUSPICIOUS ANOMALY' ? 'text-amber-400' : 'text-emerald-400'}`}>
-                      ⚠ {msg.risk} — {msg.action}
+                      ? {msg.risk} � {msg.action}
                     </div>
                   )}
                 </div>
