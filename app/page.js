@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic';
 import React, { useState } from 'react';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = 'http://127.0.0.1:8000';
 import {
   ShieldAlert, MessageSquare, Image as ImageIcon, Link as LinkIcon,
   Mic, Play, X, AlertTriangle, CheckCircle2, ShieldCheck,
@@ -133,11 +133,11 @@ const sendChatMessage = async () => {
     const res = await fetch(`${API_BASE_URL}/api/v1/chat/verify`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        user_message: userMsg
-      })
+        user_message: userMsg,
+      }),
     });
 
     if (!res.ok) {
