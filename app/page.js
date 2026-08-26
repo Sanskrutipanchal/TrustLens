@@ -1,12 +1,14 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import React, { useState } from 'react';
+
+const API_BASE_URL = '/api';
 import {
   ShieldAlert, MessageSquare, Image as ImageIcon, Link as LinkIcon,
   Mic, Play, X, AlertTriangle, CheckCircle2, ShieldCheck,
   Activity, Lock, Eye, Info, Upload
 } from 'lucide-react';
-
+const API_BASE_URL = '/api';
 export default function TrustLensDashboard() {
   const [activeTab, setActiveTab] = useState('text');
   const [inputText, setInputText] = useState('');
