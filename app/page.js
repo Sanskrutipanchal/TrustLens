@@ -8,7 +8,6 @@ import {
   Mic, Play, X, AlertTriangle, CheckCircle2, ShieldCheck,
   Activity, Lock, Eye, Info, Upload
 } from 'lucide-react';
-const API_BASE_URL = '/api';
 export default function TrustLensDashboard() {
   const [activeTab, setActiveTab] = useState('text');
   const [inputText, setInputText] = useState('');
