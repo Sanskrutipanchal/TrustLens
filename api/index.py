@@ -14,7 +14,7 @@ def root():
     return {"status": "TrustLens API is running"}
 
 
-@app.post("/api/analyze/text")
+@app.post("/api/analyze/text/")
 def analyze_text(request: TextRequest):
     text = request.text.lower()
 
