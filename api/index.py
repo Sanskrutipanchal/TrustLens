@@ -8,14 +8,12 @@ class TextRequest(BaseModel):
     text: str
 
 
-@app.get("/")
 @app.get("/api")
 @app.get("/api/")
 def root():
     return {"status": "TrustLens API is running"}
 
 
-@app.post("/analyze/text")
 @app.post("/api/analyze/text")
 def analyze_text(request: TextRequest):
     text = request.text.lower()
