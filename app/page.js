@@ -237,7 +237,7 @@ const sendChatMessage = async () => {
               <p className="text-slate-400 text-sm mb-4">Upload a screenshot to analyze for scam content</p>
               <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} className="hidden" id="imageUpload" />
               <label htmlFor="imageUpload" className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm rounded-xl cursor-pointer transition-all border border-slate-700">Choose Image</label>
-              {imageFile && ( <p className="text-emerald-400 text-xs mt-3"> âœ“ {imageFile.name} selected </p> )}
+              {imageFile && ( <p className="text-emerald-400 text-xs mt-3"> OK {imageFile.name} selected </p> )}
  </div>
           ) : (
             <div className="relative">
@@ -402,7 +402,7 @@ const sendChatMessage = async () => {
                   {msg.text}
                   {msg.risk && (
                     <div 
-className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${ msg.risk === 'CRITICAL RISK' ? 'text-red-400' : msg.risk === 'SUSPICIOUS' ? 'text-amber-400' : 'text-emerald-400' }`} > {msg.risk} — {msg.action} </div>                  )}
+className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${ msg.risk === 'CRITICAL RISK' ? 'text-red-400' : msg.risk === 'SUSPICIOUS' ? 'text-amber-400' : 'text-emerald-400' }`} > {msg.risk} - {msg.action} </div>                  )}
                 </div>
               </div>
             ))}
@@ -422,6 +422,7 @@ className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${ msg.ris
     </div>
   );
 }
+
 
 
 
