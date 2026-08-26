@@ -9,11 +9,14 @@ class TextRequest(BaseModel):
 
 
 @app.get("/")
+@app.get("/api")
+@app.get("/api/")
 def root():
     return {"status": "TrustLens API is running"}
 
 
 @app.post("/analyze/text")
+@app.post("/api/analyze/text")
 def analyze_text(request: TextRequest):
     text = request.text.lower()
 
@@ -37,11 +40,11 @@ def analyze_text(request: TextRequest):
         return {
             "risk": "HIGH",
             "message": "Potential scam detected",
-            "matched_keywords": matches
+            "matched_keywords": matches,
         }
 
     return {
         "risk": "LOW",
         "message": "No obvious scam indicators detected",
-        "matched_keywords": []
+        "matched_keywords": [],
     }
