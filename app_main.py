@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+﻿from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import re
@@ -21,8 +21,11 @@ app.add_middleware(
         "http://localhost:3000",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "https://trust-lens-lake.vercel.app",
+        "https://trust-lens-git-frontend-branch-four-sights.vercel.app",
+         allow_methods=["*"],
     ],
-    allow_methods=["*"],
+
     allow_headers=["*"],
 )
 
