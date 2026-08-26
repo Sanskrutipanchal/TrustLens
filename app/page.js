@@ -6,7 +6,7 @@ const API_BASE_URL = '/api';
 import {
   ShieldAlert, MessageSquare, Image as ImageIcon, Link as LinkIcon,
   Mic, Play, X, AlertTriangle, CheckCircle2, ShieldCheck,
-  Activity, Lock, Eye, Info, Upload
+  Activity, Lock, Eye, Info, Upload, Star
 } from 'lucide-react';
 export default function TrustLensDashboard() {
   const [activeTab, setActiveTab] = useState('text');
@@ -237,8 +237,8 @@ const sendChatMessage = async () => {
               <p className="text-slate-400 text-sm mb-4">Upload a screenshot to analyze for scam content</p>
               <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} className="hidden" id="imageUpload" />
               <label htmlFor="imageUpload" className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm rounded-xl cursor-pointer transition-all border border-slate-700">Choose Image</label>
-              {imageFile && <p className="text-emerald-400 text-xs mt-3">? {imageFile.name} selected</p>}
-            </div>
+              {imageFile && ( <p className="text-emerald-400 text-xs mt-3"> ✓ {imageFile.name} selected </p> )}
+ </div>
           ) : (
             <div className="relative">
               <textarea rows={4} value={inputText} onChange={(e) => setInputText(e.target.value)} placeholder={placeholders[activeTab]} className="w-full bg-slate-950/90 border border-slate-800 rounded-xl p-4 text-slate-200 focus:outline-none focus:border-red-500/80 font-mono text-sm leading-relaxed resize-none shadow-inner transition-colors" />
@@ -338,10 +338,7 @@ const sendChatMessage = async () => {
       )}
 
       {/* Feedback Button */}
-      <button onClick={() => setFeedbackOpen(!feedbackOpen)} className="fixed bottom-6 left-6 z-50 px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-full text-xs font-semibold text-slate-300 flex items-center gap-2 shadow-xl transition-all cursor-pointer">
-        ? Give Feedback
-      </button>
-
+      <button onClick={() => setFeedbackOpen(!feedbackOpen)} className="fixed bottom-6 left-6 z-50 px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-full text-xs font-semibold text-slate-300 flex items-center gap-2 shadow-xl transition-all cursor-pointer" > <MessageSquare className="w-4 h-4" /> Give Feedback </button>
       {/* Feedback Form */}
       {feedbackOpen && (
         <div className="fixed bottom-24 left-6 z-50 w-80 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-5 space-y-4">
@@ -352,10 +349,8 @@ const sendChatMessage = async () => {
           <div>
             <p className="text-xs text-slate-400 mb-2">How would you rate TrustLens?</p>
             <div className="flex gap-2">
-              {[1,2,3,4,5].map((star) => (
-                <button key={star} onClick={() => setRating(star)} className={`text-2xl transition-all cursor-pointer ${rating >= star ? 'text-amber-400' : 'text-slate-600'}`}>?</button>
-              ))}
-            </div>
+              {[1, 2, 3, 4, 5].map((star) => ( <button key={star} onClick={() => setRating(star)} aria-label={`Rate ${star} out of 5`} className={`transition-all cursor-pointer ${ rating >= star ? 'text-amber-400' : 'text-slate-600' }`} > <Star className="w-6 h-6" fill={rating >= star ? 'currentColor' : 'none'} /> </button> ))} 
+          </div>
           </div>
           <div>
             <p className="text-xs text-slate-400 mb-2">What did you think?</p>
@@ -370,7 +365,7 @@ const sendChatMessage = async () => {
             <textarea rows={3} value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} placeholder="Tell us what you think..." className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-red-500 resize-none" />
           </div>
           {feedbackSubmitted ? (
-            <div className="text-center py-2 text-emerald-400 text-sm font-bold">? Thank you for your feedback!</div>
+            <div className="text-center py-2 text-emerald-400 text-sm font-bold"> Thank you for your feedback!</div>
           ) : (
             <button onClick={() => {
               if (rating === 0) { alert('Please select a rating!'); return; }
@@ -406,10 +401,8 @@ const sendChatMessage = async () => {
                 <div className={`max-w-[85%] px-3 py-2 rounded-xl text-xs ${msg.role === 'user' ? 'bg-red-600 text-white rounded-br-none' : 'bg-slate-800 text-slate-200 border border-slate-700 rounded-bl-none'}`}>
                   {msg.text}
                   {msg.risk && (
-                    <div className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${msg.risk === 'CRITICAL RISK' ? 'text-red-400' : msg.risk === 'SUSPICIOUS ANOMALY' ? 'text-amber-400' : 'text-emerald-400'}`}>
-                      ? {msg.risk} â€” {msg.action}
-                    </div>
-                  )}
+                    <div 
+className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${ msg.risk === 'CRITICAL RISK' ? 'text-red-400' : msg.risk === 'SUSPICIOUS' ? 'text-amber-400' : 'text-emerald-400' }`} > {msg.risk} — {msg.action} </div>                  )}
                 </div>
               </div>
             ))}
