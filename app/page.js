@@ -427,4 +427,4 @@ const sendChatMessage = async () => {
 
     </div>
   );
-}
+
