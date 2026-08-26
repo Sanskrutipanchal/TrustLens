@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import React, { useState } from 'react';
 import {
   ShieldAlert, MessageSquare, Image as ImageIcon, Link as LinkIcon,
@@ -406,7 +407,7 @@ const sendChatMessage = async () => {
                   {msg.text}
                   {msg.risk && (
                     <div className={`mt-2 pt-2 border-t border-slate-600 font-mono text-[10px] ${msg.risk === 'CRITICAL RISK' ? 'text-red-400' : msg.risk === 'SUSPICIOUS ANOMALY' ? 'text-amber-400' : 'text-emerald-400'}`}>
-                      ? {msg.risk} — {msg.action}
+                      ? {msg.risk} â€” {msg.action}
                     </div>
                   )}
                 </div>
