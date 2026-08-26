@@ -1,6 +1,5 @@
 app.py
 app_main.py
-requirements.txt
 routes/
 services/
 utils/
