@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic';
 import React, { useState } from 'react';
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = 'https://trustlens-xzqs.onrender.com';
 import {
   ShieldAlert, MessageSquare, Image as ImageIcon, Link as LinkIcon,
   Mic, Play, X, AlertTriangle, CheckCircle2, ShieldCheck,
